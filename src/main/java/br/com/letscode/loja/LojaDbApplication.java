@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LojaDbApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(LojaDbApplication.class, args);
     }
 
