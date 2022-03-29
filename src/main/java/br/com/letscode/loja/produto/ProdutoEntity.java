@@ -1,20 +1,22 @@
 package br.com.letscode.loja.produto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "PRODUTO")
+@Entity(name = "PRODUTO")
+//@Table(name = "PRODUTO")
+@Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 
 public class ProdutoEntity {
     @Id
+    @Setter()
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -50,4 +52,19 @@ public class ProdutoEntity {
 
     @Column(name = "DATA_ATUALIZACAO")
     private ZonedDateTime dataAtualizacao;
+
+    public ProdutoEntity(String nome, String descricao, BigDecimal valor, String codigoBarra, Long idFabricante, Integer peso, String pesoUnidadeMedida) {
+
+        this.codigo = UUID.randomUUID();
+        this.nome = nome;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.codigoBarra = codigoBarra;
+        this.status = "ATIVO";
+        this.idFabricante = idFabricante;
+        this.peso = peso;
+        this.pesoUnidadeMedida = pesoUnidadeMedida;
+        this.dataCriacao = ZonedDateTime.now();
+        this.dataAtualizacao = ZonedDateTime.now();
+    }
 }
