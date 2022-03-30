@@ -8,7 +8,6 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity(name = "PRODUTO")
-//@Table(name = "PRODUTO")
 @Builder
 @Data
 @AllArgsConstructor
@@ -16,8 +15,8 @@ import java.util.UUID;
 
 public class ProdutoEntity {
     @Id
-    @Setter()
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "sq_produto")
     private Long id;
 
     @Column(name = "CODIGO")
