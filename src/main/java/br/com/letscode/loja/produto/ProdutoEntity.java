@@ -1,5 +1,6 @@
 package br.com.letscode.loja.produto;
 
+import br.com.letscode.loja.fabricante.FabricanteEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,11 +35,15 @@ public class ProdutoEntity {
     @Column(name = "CODIGO_BARRA")
     private String codigoBarra;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private String status;
+    private ProdutoStatus status;
 
-    @Column(name = "ID_FABRICANTE")
-    private Long idFabricante;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_FABRICANTE")
+    private FabricanteEntity fabricante;
+
 
     @Column(name = "PESO")
     private Integer peso;
@@ -52,15 +57,15 @@ public class ProdutoEntity {
     @Column(name = "DATA_ATUALIZACAO")
     private ZonedDateTime dataAtualizacao;
 
-    public ProdutoEntity(String nome, String descricao, BigDecimal valor, String codigoBarra, Long idFabricante, Integer peso, String pesoUnidadeMedida) {
+    public ProdutoEntity(String nome, String descricao, BigDecimal valor, String codigoBarra, FabricanteEntity fabricante, Integer peso, String pesoUnidadeMedida) {
 
         this.codigo = UUID.randomUUID();
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
         this.codigoBarra = codigoBarra;
-        this.status = "ATIVO";
-        this.idFabricante = idFabricante;
+        this.status = ProdutoStatus.ATIVO;
+        this.fabricante = fabricante;
         this.peso = peso;
         this.pesoUnidadeMedida = pesoUnidadeMedida;
         this.dataCriacao = ZonedDateTime.now();
