@@ -3,9 +3,11 @@ package br.com.letscode.loja.produto;
 import br.com.letscode.loja.fabricante.FabricanteEntity;
 import br.com.letscode.loja.fabricante.FabricanteRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.awt.print.Pageable;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -15,8 +17,20 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
     private FabricanteRepository fabricanteRepository;
 
-    public List<ProdutoEntity> buscarTodos() {
-        return produtoRepository.findAll();
+    public Page<ProdutoEntity> buscarTodos(Integer offset, Integer limit, String nome, BigDecimal valor) {
+        Pageable pageable = new OffsetLimitPageable(offset, limit);
+
+
+        return produtoRepository.findAll(pageable);
+    }
+
+    public ProdutoEntity buscarPorId(Long id) {
+
+        return produtoRepository.findById(id).get();
+    }
+
+    public ProdutoEntity buscarPorCodigoBarra(String codigoBarra) {
+        return produtoRepository.findByCodigoBarra(codigoBarra);
     }
 
     public ProdutoEntity criar(ProdutoRequest produtoRequest) {

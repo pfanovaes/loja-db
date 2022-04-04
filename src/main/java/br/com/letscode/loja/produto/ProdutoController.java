@@ -1,6 +1,7 @@
 package br.com.letscode.loja.produto;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,13 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @GetMapping()
-    public ResponseEntity<List<ProdutoEntity>> get(
+    public ResponseEntity<Page<ProdutoEntity>> get(
+        @RequestParam(name = "offset", required = true) Integer offset,
+        @RequestParam(name = "limit", required = true) Integer limit
 
     ){
 
-        List<ProdutoEntity> produtos = produtoService.buscarTodos();
-
+        Page<ProdutoEntity> produtos = produtoService.buscarTodos(offset, limit);
         return ResponseEntity.ok(produtos);
     }
 
@@ -30,5 +32,12 @@ public class ProdutoController {
         return ResponseEntity.created(null).body(produto);
     }
 
+    @GetMapping("/codigo")
+    public ResponseEntity<ProdutoEntity> getByCodigoBarra(
+            @RequestParam("codigo") String codigoBarra) {
+
+        ProdutoEntity produto = produtoService.buscarPorCodigoBarra(codigoBarra);
+        return ResponseEntity.ok(produto);
+    }
 
 }
